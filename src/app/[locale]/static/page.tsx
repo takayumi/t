@@ -2,6 +2,14 @@ import { getTranslations } from "next-intl/server";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 
+export async function generateMetadata() {
+  const t = await getTranslations("HomePage");
+
+  return {
+    title: t("title"),
+  };
+}
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -12,7 +20,7 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  // setRequestLocale(locale);
+  setRequestLocale(locale);
 
   const t = await getTranslations("HomePage");
   return (
